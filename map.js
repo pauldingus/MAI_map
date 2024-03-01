@@ -8,7 +8,7 @@ const map = new mapboxgl.Map({
 });
 
 // Assuming you're fetching your GeoJSON data asynchronously
-fetch('/path/to/your/demo_shapes.geojson') // Adjust the path to your GeoJSON file
+fetch('./demo_shapes.geojson') // Adjust the path to your GeoJSON file
     .then(response => response.json())
     .then(data => {
         data.features.forEach(function(feature) {
