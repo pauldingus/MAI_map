@@ -23,6 +23,10 @@ fetch(geojsonUrl)
             const el = document.createElement('div');
             el.className = 'marker';
 
+            const coordinates = feature.geometry.coordinates[0][0];
+            const loc = feature.properties.loc;
+            const weekday = feature.properties.weekday;
+
             // Add marker to the map
             new mapboxgl.Marker(el)
                 .setLngLat(centroid)
