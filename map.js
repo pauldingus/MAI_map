@@ -7,29 +7,21 @@ const map = new mapboxgl.Map({
     zoom: 6
 });
 
-// Path to your GeoJSON file
-const geojsonUrl = './demo_shapes.geojson';
-
-// Load GeoJSON using fetch API
-fetch(geojsonUrl)
+// Assuming you're fetching your GeoJSON data asynchronously
+fetch('/path/to/your/demo_shapes.geojson') // Adjust the path to your GeoJSON file
     .then(response => response.json())
     .then(data => {
-        data.features.forEach(feature => {
-            // Use the first coordinate set of the polygon for the marker
-            const firstCoord = feature.geometry.coordinates[0][0];
-            const centroid = [firstCoord[0], firstCoord[1]];
-
-            // Create a marker element
+        data.features.forEach(function(feature) {
             const el = document.createElement('div');
             el.className = 'marker';
 
+            // Using the first coordinate pair of the shape for simplicity
             const coordinates = feature.geometry.coordinates[0][0];
             const loc = feature.properties.loc;
             const weekday = feature.properties.weekday;
 
-            // Add marker to the map
             new mapboxgl.Marker(el)
-                .setLngLat(centroid)
+                .setLngLat(coordinates)
                 .setPopup(new mapboxgl.Popup({ offset: 25 })
                     .setHTML('<div style="width: 200px; height: 200px;"><p>Loc: ' + loc + '</p><p>Weekday: ' + weekday + '</p><div id="popup-' + feature.id + '" style="width: 200px; height: 200px;"></div></div>'))
                 .addTo(map)
@@ -39,11 +31,11 @@ fetch(geojsonUrl)
                         const popupMap = new mapboxgl.Map({
                             container: 'popup-' + feature.id,
                             style: 'mapbox://styles/mapbox/satellite-v9',
-                            center: centroid,
+                            center: coordinates,
                             zoom: 14
                         });
 
-                        // Display the complete shape on the popup map
+                        // Add the shape to the popup map
                         popupMap.on('load', function() {
                             popupMap.addSource(feature.id, {
                                 'type': 'geojson',
@@ -56,13 +48,12 @@ fetch(geojsonUrl)
                                 'source': feature.id,
                                 'layout': {},
                                 'paint': {
-                                    'fill-color': '#FC712B',
-                                    'fill-opacity': 0.6
+                                    'fill-color': '#088',
+                                    'fill-opacity': 0.8
                                 }
                             });
                         });
-                    }, 300); // Adjust timeout as needed
+                    }, 300); // Timeout ensures the popup is rendered before initializing the map
                 });
         });
-    })
-    .catch(error => console.error('Error loading the GeoJSON data: ', error));
+    });
