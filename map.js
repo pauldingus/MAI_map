@@ -23,7 +23,7 @@ fetch('./demo_shapes.geojson') // Adjust the path to your GeoJSON file
             new mapboxgl.Marker(el)
                 .setLngLat(coordinates)
                 .setPopup(new mapboxgl.Popup({ offset: 25 })
-                    .setHTML('<div style="width: 200px; height: 200px;"><p>Loc: ' + loc + '</p><p>Weekday: ' + weekday + '</p><div id="popup-' + feature.id + '" style="width: 200px; height: 200px;"></div></div>'))
+                    .setHTML('<div style="width: 200px; height: 300px;"><p>Loc: ' + loc + '</p><p>Weekday: ' + weekday + '</p><div id="popup-' + feature.id + '" style="width: 200px; height: 200px;"></div></div>'))
                 .addTo(map)
                 .getElement()
                 .addEventListener('click', function() {
@@ -32,7 +32,7 @@ fetch('./demo_shapes.geojson') // Adjust the path to your GeoJSON file
                             container: 'popup-' + feature.id,
                             style: 'mapbox://styles/mapbox/satellite-v9',
                             center: coordinates,
-                            zoom: 14
+                            zoom: 16
                         });
 
                         // Add the shape to the popup map
@@ -49,7 +49,7 @@ fetch('./demo_shapes.geojson') // Adjust the path to your GeoJSON file
                                 'layout': {},
                                 'paint': {
                                     'fill-color': '#088',
-                                    'fill-opacity': 0.8
+                                    'fill-opacity': 0.5
                                 }
                             });
                         });
