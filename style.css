@@ -5,3 +5,14 @@
     border-radius: 50%;
     display: block;
 }
+
+.popup-content {
+    width: 200px; /* Adjust width as needed */
+    max-height: 300px; /* Adjust height as needed */
+    overflow-y: auto; /* Allows scrolling for vertical overflow */
+}
+
+.popup-map {
+    width: 100%; /* Makes the map fill the container width */
+    height: 200px; /* Fixed height for the map */
+}
