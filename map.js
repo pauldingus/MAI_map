@@ -20,14 +20,13 @@ fetch('./demo_shapes.geojson') // Adjust the path to your GeoJSON file
             const loc = feature.properties.loc;
             const weekday = feature.properties.weekday;
 
-            // Create and add the marker to the map
             const marker = new mapboxgl.Marker(el)
                 .setLngLat(coordinates)
                 .setPopup(new mapboxgl.Popup({ offset: 25 })
-                    .setHTML('<div class="popup-content"><p>Loc: ' + loc + '</p><p>Weekday: ' + weekday + '</p><div id="popup-' + feature.id + '" class="popup-map"></div></div>')
-                .addTo(map);
+                    .setHTML('<div class="popup-content"><p>Loc: ' + loc + '</p><p>Weekday: ' + weekday + 
+                             '</p><div id="popup-' + feature.id + '" class="popup-map"></div></div>'))
+                .addTo(map); // Make sure this is correctly placed outside the setPopup method
 
-            // Attach the event listener to the marker element
             marker.getElement().addEventListener('click', function() {
                 setTimeout(function() {
                     const popupMap = new mapboxgl.Map({
@@ -37,7 +36,6 @@ fetch('./demo_shapes.geojson') // Adjust the path to your GeoJSON file
                         zoom: 16
                     });
 
-                    // Add the shape to the popup map
                     popupMap.on('load', function() {
                         popupMap.addSource(feature.id, {
                             'type': 'geojson',
@@ -55,7 +53,7 @@ fetch('./demo_shapes.geojson') // Adjust the path to your GeoJSON file
                             }
                         });
                     });
-                }, 300); // Timeout ensures the popup is rendered before initializing the map
+                }, 300); // This timeout ensures the popup is fully rendered before initializing the map
             });
         });
-    });
+    }).catch(error => console.error('Error loading GeoJSON data:', error));
