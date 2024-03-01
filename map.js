@@ -26,8 +26,8 @@ fetch(geojsonUrl)
             // Add marker to the map
             new mapboxgl.Marker(el)
                 .setLngLat(centroid)
-                .setPopup(new mapboxgl.Popup({ offset: 25 }) // Add popup
-                .setHTML('<div id="popup-' + feature.id + '" style="width: 200px; height: 200px;"></div>'))
+                .setPopup(new mapboxgl.Popup({ offset: 25 })
+                    .setHTML('<div style="width: 200px; height: 200px;"><p>Loc: ' + loc + '</p><p>Weekday: ' + weekday + '</p><div id="popup-' + feature.id + '" style="width: 200px; height: 200px;"></div></div>'))
                 .addTo(map)
                 .getElement()
                 .addEventListener('click', function() {
@@ -52,8 +52,8 @@ fetch(geojsonUrl)
                                 'source': feature.id,
                                 'layout': {},
                                 'paint': {
-                                    'fill-color': '#088',
-                                    'fill-opacity': 0.8
+                                    'fill-color': '#FC712B',
+                                    'fill-opacity': 0.6
                                 }
                             });
                         });
