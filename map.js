@@ -23,7 +23,7 @@ fetch('./demo_shapes.geojson') // Adjust the path to your GeoJSON file
             new mapboxgl.Marker(el)
                 .setLngLat(coordinates)
                 .setPopup(new mapboxgl.Popup({ offset: 25 })
-                    .setHTML('<div style="width: 200px; height: 300px;"><p>Loc: ' + loc + '</p><p>Weekday: ' + weekday + '</p><div id="popup-' + feature.id + '" style="width: 200px; height: 150px;"></div></div>'))
+                    .setHTML('<div class="popup-content"><p>Loc: ' + loc + '</p><p>Weekday: ' + weekday + '</p><div id="popup-' + feature.id + '" class="popup-map"></div></div>')
                 .addTo(map)
                 .getElement()
                 .addEventListener('click', function() {
