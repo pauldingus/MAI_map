@@ -49,7 +49,9 @@ fetch('./demo_shapes.geojson') // Adjust the path to your GeoJSON file
                             'layout': {},
                             'paint': {
                                 'fill-color': '#07B1BC',
-                                'fill-opacity': 0.4
+                                'fill-opacity': 0.4,
+                                'line-color': '#07B1BC',
+                                'line-opacity': 0.75
                             }
                         });
                     });
