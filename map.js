@@ -1,29 +1,64 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoicGF1bGRpbmd1cyIsImEiOiJjbDBuejBybW0xa3oyM2NsNGZzdjVlYmplIn0.A3JBUdpcYMzg0Et6Bg-F5A'; // Replace with your Mapbox access token
 
 const map = new mapboxgl.Map({
-    container: 'map', // container ID in the HTML
-    style: 'mapbox://styles/mapbox/streets-v11', // Map style
-    center: [-98.5795, 39.8283], // Initial map center in [longitude, latitude]
-    zoom: 3 // Initial zoom level
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: [36.51394395237915, -0.3370423786347967], // Adjust as needed
+    zoom: 6
 });
 
-// Toy data for market locations
-const markets = [
-    { lng: -99.1332, lat: 19.4326, name: 'Market 1', description: 'This is Market 1.' },
-    { lng: -118.2437, lat: 34.0522, name: 'Market 2', description: 'This is Market 2.' },
-    // Add more markets as needed
-];
+// Path to your GeoJSON file
+const geojsonUrl = './demo_shapes.geojson';
 
-// Add markers to the map
-markets.forEach(function(market) {
-    // Create a HTML element for each marker
-    const el = document.createElement('div');
-    el.className = 'marker';
+// Load GeoJSON using fetch API
+fetch(geojsonUrl)
+    .then(response => response.json())
+    .then(data => {
+        data.features.forEach(feature => {
+            // Use the first coordinate set of the polygon for the marker
+            const firstCoord = feature.geometry.coordinates[0][0];
+            const centroid = [firstCoord[0], firstCoord[1]];
 
-    // Make a marker for each market and add to the map
-    new mapboxgl.Marker(el)
-        .setLngLat([market.lng, market.lat])
-        .setPopup(new mapboxgl.Popup({ offset: 25 }) // Add popups
-        .setHTML('<h3>' + market.name + '</h3><p>' + market.description + '</p>'))
-        .addTo(map);
-});
+            // Create a marker element
+            const el = document.createElement('div');
+            el.className = 'marker';
+
+            // Add marker to the map
+            new mapboxgl.Marker(el)
+                .setLngLat(centroid)
+                .setPopup(new mapboxgl.Popup({ offset: 25 }) // Add popup
+                .setHTML('<div id="popup-' + feature.id + '" style="width: 200px; height: 200px;"></div>'))
+                .addTo(map)
+                .getElement()
+                .addEventListener('click', function() {
+                    setTimeout(function() {
+                        const popupMap = new mapboxgl.Map({
+                            container: 'popup-' + feature.id,
+                            style: 'mapbox://styles/mapbox/satellite-v9',
+                            center: centroid,
+                            zoom: 14
+                        });
+
+                        // Display the complete shape on the popup map
+                        popupMap.on('load', function() {
+                            popupMap.addSource(feature.id, {
+                                'type': 'geojson',
+                                'data': feature
+                            });
+
+                            popupMap.addLayer({
+                                'id': feature.id,
+                                'type': 'fill',
+                                'source': feature.id,
+                                'layout': {},
+                                'paint': {
+                                    'fill-color': '#088',
+                                    'fill-opacity': 0.8
+                                }
+                            });
+                        });
+                    }, 300); // Adjust timeout as needed
+                });
+        });
+    })
+    .catch(error => console.error('Error loading the GeoJSON data: ', error));
