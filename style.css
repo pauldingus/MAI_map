@@ -16,3 +16,9 @@
     width: 100%; /* Makes the map fill the container width */
     height: 300px; /* Fixed height for the map */
 }
+
+
+.mapboxgl-popup {
+    max-width: 320px; /* Adjust width as needed */
+    max-height: 470px; /* Adjust height as needed */
+}
