@@ -48,8 +48,8 @@ fetch('./demo_shapes.geojson') // Adjust the path to your GeoJSON file
                             'source': feature.id,
                             'layout': {},
                             'paint': {
-                                'fill-color': '#088',
-                                'fill-opacity': 0.5
+                                'fill-color': '#FC712B',
+                                'fill-opacity': 0.3
                             }
                         });
                     });
