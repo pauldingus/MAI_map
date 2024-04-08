@@ -13,14 +13,19 @@
 }
 
 .popup-map {
-    width: 100%; /* Makes the map fill the container width */
-    height: 300px; /* Fixed height for the map */
+  width: 100%;
+  height: 100%;
 }
-
 
 .mapboxgl-popup {
     max-width: 320px; /* Adjust width as needed */
     max-height: 470px; /* Adjust height as needed */
+}
+
+.mapboxgl-popup-content {
+  width: 300px; /* Adjust the width as needed */
+  height: 200px; /* Adjust the height as needed */
+  overflow: hidden;
 }
 
 element.style {
